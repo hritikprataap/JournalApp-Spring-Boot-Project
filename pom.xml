@@ -17,7 +17,7 @@
         <java.version>17</java.version>
 
             <sonar.organization>hritikprataap</sonar.organization>
-       
+
     </properties>
 
     <dependencies>
