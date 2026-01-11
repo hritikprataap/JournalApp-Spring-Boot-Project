@@ -1,0 +1,38 @@
+<configuration>
+    <appender name="myConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+                <pattern>
+                        %d{HH:mm:ss.SSS}[%thread]%5level%logger{36}- %msg%n
+                </pattern>
+        </encoder>
+<!--this is used to print the output in console-->
+    </appender>
+    <appender name="myFIleAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>
+            <!--            jaha par bhi tumhe uye wali log file cahiye wha ka address de do-->
+            /Users/hritikprataap/logs/jounalapp.log
+        </file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+        <fileNamePattern>
+            jounalapp-%d{yy-MM-dd_HH-mm}.%i.log
+        </fileNamePattern>>
+        <maxFileSize>10MB</maxFileSize>
+        <maxHistory>10</maxHistory>
+<!--        agar 10 files se jayada ho jati hain to oldest one ko delete kar dijiye-->
+
+        </rollingPolicy>
+        <encoder>
+            <pattern>
+                %d{yy-MM-dd  HH:mm:ss.SSS}  [%thread]  %5level  %logger{36}  - %msg %n
+<!--                   time,thread,{minimum 5 width}level{info,warn ....},message,new line-->
+            </pattern>
+        </encoder>
+
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="myConsoleAppender"/>
+        <appender-ref ref="myFIleAppender"/>
+    </root>
+
+</configuration>
