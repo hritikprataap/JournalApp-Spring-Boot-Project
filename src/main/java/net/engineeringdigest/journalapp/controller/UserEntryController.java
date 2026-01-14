@@ -21,7 +21,7 @@ public class  UserEntryController {
 
     @Autowired
     private UserEntryRepository userEntryRepository;
-    // 🔒 GET ALL USERS (requires auth)
+   
 //    @GetMapping
 //    public List<User> getAll() {
 //        return userEntryService.getall();
@@ -30,7 +30,7 @@ public class  UserEntryController {
     private WeatherService weatherService;
 
 
-    // 🔒 GET USER BY USERNAME (requires auth)
+    
     @GetMapping
     public ResponseEntity<?> greeting() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
