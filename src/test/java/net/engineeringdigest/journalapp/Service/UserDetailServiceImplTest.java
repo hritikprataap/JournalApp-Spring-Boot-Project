@@ -7,11 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.provider.Arguments;
 import org.mockito.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -37,7 +33,7 @@ public class UserDetailServiceImplTest{
 
     @Test
     void LoadUSerByUsernameTest(){
-        when(userEntryRepository.findByUserName(ArgumentMatchers.anyString())).thenReturn(User.builder().userName("ram").password("vfveaa").rolls(new ArrayList<>()).build());
+        when(userEntryRepository.findByUserName(ArgumentMatchers.anyString())).thenReturn(User.builder().userName("ram").password("vfveaa").roles(new ArrayList<>()).build());
         UserDetails user = userDetailService.loadUserByUsername("ram");
         Assertions.assertNotNull(user);
     }

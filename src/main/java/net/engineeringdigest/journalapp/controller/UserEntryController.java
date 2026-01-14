@@ -1,8 +1,10 @@
 package net.engineeringdigest.journalapp.controller;
 
+import net.engineeringdigest.journalapp.API.respone.WeatherResponse;
 import net.engineeringdigest.journalapp.entity.User;
 import net.engineeringdigest.journalapp.repositry.UserEntryRepository;
 import net.engineeringdigest.journalapp.service.UserEntryService;
+import net.engineeringdigest.journalapp.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,26 +25,30 @@ public class  UserEntryController {
 //    @GetMapping
 //    public List<User> getAll() {
 //        return userEntryService.getall();
-//    }
+// }
+    @Autowired
+    private WeatherService weatherService;
+
 
     // 🔒 GET USER BY USERNAME (requires auth)
-    @GetMapping("/by-username/{userName}")
-    public ResponseEntity<User> getByUserName(@PathVariable String userName) {
-        User user = userEntryService.findByUserName(userName);
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    @GetMapping
+    public ResponseEntity<?> greeting() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        WeatherResponse weatherResponse = weatherService.getWeather("Mumbai");
+        String greeting = "";
+        if (weatherResponse != null) {
+            greeting = ", Weather feels like " + weatherResponse.getCurrent().getFeelslike();
         }
-        return ResponseEntity.ok(user);
+        return new ResponseEntity<>("Hi " + authentication.getName() + greeting, HttpStatus.OK);
     }
 
 
 
 
-    // 🔒 UPDATE USER (requires auth)
     @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody User user) {
          Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        //all the username are stored in seqcontholder and obtain it and get its name
+        //all the username are stored in secontholder and obtain it and get its name
         String userName = authentication.getName();
         User userInDb = userEntryService.findByUserName(userName);
         userInDb.setUserName(user.getUserName());

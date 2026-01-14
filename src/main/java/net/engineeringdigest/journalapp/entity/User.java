@@ -6,7 +6,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import net.engineeringdigest.journalapp.entity.JournalEntry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 //using data anotation we can directly get getters,setters,allagrconstructor,noargcontructors and etc
 public class User {
     @Id
@@ -29,12 +29,17 @@ public class User {
     @NonNull
     //this field must not be nim null
     private String userName;
+    private String email;
+    private boolean sentimentalAnalysis;
     @NonNull
     private String password;
     @DBRef //use to create link between user and journal_entries
     //it only holds id not the full content
     private List<JournalEntry> journalEntries=new ArrayList<>();
-    private List<String>rolls;
+    // In User.java
+    private List<String> roles = new ArrayList<>(); // Use 'roles' and initialize it!
+
+
 
 
 }//using lombok we can resduce boiler plate code
