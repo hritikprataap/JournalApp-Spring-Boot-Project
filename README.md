@@ -1,1 +1,1 @@
-This App is in development
+This Application is in development
