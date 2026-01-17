@@ -18,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Disabled//this is done so that here only the application feels to run so the
+@Disabled //this is done so that here only the application feels to run so the
 public class UserServiceTests {
     @Autowired
     private UserEntryRepository userEntryRepository;

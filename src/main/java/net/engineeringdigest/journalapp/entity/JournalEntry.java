@@ -1,6 +1,7 @@
 package net.engineeringdigest.journalapp.entity;
 
 import lombok.*;
+import net.engineeringdigest.journalapp.enums.Sentiment;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -26,6 +27,7 @@ public class  JournalEntry {
     private String title;
     private String content;
     private LocalDateTime date;
+    private Sentiment sentiment;
 }//using lombok we can resduce boiler plate code
 
 //    public LocalDateTime getDate() {

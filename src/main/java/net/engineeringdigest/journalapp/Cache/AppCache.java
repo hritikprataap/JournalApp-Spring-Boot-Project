@@ -12,6 +12,9 @@ import java.util.Map;
 
 @Component
 public class AppCache {
+    //this appCache is created such that
+    //we have created the collection storing title ans requried link
+    //so to reduce latency we have created a map which store it
 
     public enum keys{
        WEATHER_API;
@@ -22,7 +25,7 @@ public class AppCache {
 
     public Map<String,String> App_Cache;
     @PostConstruct
-    public void init(){
+    public void  init(){
         App_Cache =new HashMap<>();
         List<ConfigJournalAppEntity> all = configJournalAppRepository.findAll();
         for (ConfigJournalAppEntity configJournalAppEntity : all){
@@ -30,7 +33,7 @@ public class AppCache {
 
         }
         App_Cache.forEach((key, value) -> System.out.println("Cache Key: " + key + " | Value: " + value));
-    }
+     }
 
     }
 
