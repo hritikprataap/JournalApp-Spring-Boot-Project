@@ -64,6 +64,7 @@ public class UserScheduler {
                 try{
                     kafkaTemplate.send("weekly-sentiments", sentimentData.getEmail(), sentimentData);
                 }catch (Exception e){
+                    //by chnace if our kafka cloud doesn't work then this is the fallback handling
                     emailService.sendEmail(sentimentData.getEmail(), "Sentiment for previous week", sentimentData.getSentiment());
                 }
             }
