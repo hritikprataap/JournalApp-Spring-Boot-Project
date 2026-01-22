@@ -2,13 +2,14 @@ package net.engineeringdigest.journalapp.schedular;
 
 import net.engineeringdigest.journalapp.Cache.AppCache;
 import net.engineeringdigest.journalapp.entity.JournalEntry;
+import net.engineeringdigest.journalapp.model.SentimentData;
 import net.engineeringdigest.journalapp.entity.User;
-import net.engineeringdigest.journalapp.enums.Sentiment;
 import net.engineeringdigest.journalapp.enums.Sentiment;
 import net.engineeringdigest.journalapp.repositry.UserRepositoryImpl;
 import net.engineeringdigest.journalapp.service.EmailService;
 import net.engineeringdigest.journalapp.service.SentimentAnalysisService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +32,9 @@ public class UserScheduler {
 
     @Autowired
     private AppCache appCache;
+
+    @Autowired
+    private KafkaTemplate<String,SentimentData>kafkaTemplate;
 
 
     @Scheduled(cron ="0 0 9 * * SUN")
@@ -55,13 +59,17 @@ public class UserScheduler {
                     mostFrequentSentiment = entry.getKey();
                 }
             }
-            if(mostFrequentSentiment !=null){
-                emailService.sendEmail(user.getEmail(),"sentiment for last last 7 days",mostFrequentSentiment.toString());
+            if (mostFrequentSentiment != null) {
+                SentimentData sentimentData = SentimentData.builder().email(user.getEmail()).sentiment("Sentiment for last 7 days " + mostFrequentSentiment).build();
+                try{
+                    kafkaTemplate.send("weekly-sentiments", sentimentData.getEmail(), sentimentData);
+                }catch (Exception e){
+                    emailService.sendEmail(sentimentData.getEmail(), "Sentiment for previous week", sentimentData.getSentiment());
+                }
             }
-
         }
-
     }
+
 
     //schedule the appCache to autmaticlly run after 10 mins
     @Scheduled(cron = "0 0/10 * * * *")

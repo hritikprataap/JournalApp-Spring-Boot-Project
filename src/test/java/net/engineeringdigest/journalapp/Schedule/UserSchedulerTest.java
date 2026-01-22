@@ -12,6 +12,6 @@ public class UserSchedulerTest {
 
     @Test
     public void testFetchUserAndSendSaMail(){
-        userScheduler.fetchUserAndSendSaMails();
+          userScheduler.fetchUserAndSendSaMails();
     }
 }
