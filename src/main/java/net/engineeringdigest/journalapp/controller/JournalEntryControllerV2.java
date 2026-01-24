@@ -1,5 +1,7 @@
 package net.engineeringdigest.journalapp.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import net.engineeringdigest.journalapp.entity.JournalEntry;
 import net.engineeringdigest.journalapp.entity.User;
 import net.engineeringdigest.journalapp.service.JournalEntryServices;
@@ -22,7 +24,7 @@ import lombok.Setter;
 
 @RestController//means this class is a component but also provides som e special kind of functionalities matlb ki wo ioc me jaega hio ye wlai class
 @RequestMapping("/journal")//iske karn andr ke sare methods ko ek base mil gaya ki jo bhi maping hogi usme journal to rahega hi
-
+@Tag(name="Journal Api's")
 public class  JournalEntryControllerV2 {
 @Autowired
 //autowire ka use karke ham direct bean ka use car rahe
@@ -33,6 +35,7 @@ private JournalEntryServices journalEntryService;//
 
 
     @GetMapping
+    @Operation(summary = "Get all journalEntries of a User")
     //iska add rahega /journal/abc
     public ResponseEntity<?> getAllJournalEntriesOfUser(){//ye ek method hai matlb ki function hai
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -65,15 +68,16 @@ private JournalEntryServices journalEntryService;//
     }
    @GetMapping("id/{myId}")
    //myId is a path variable means ki abhi agr apn get ki call maar rahe the to sare entries dikha de raha tha by now hame agr specific dekhna hai to ye use karege
-    public ResponseEntity <JournalEntry>getJournalEntryBy(@PathVariable ObjectId myId){
+    public ResponseEntity <JournalEntry>getJournalEntryBy(@PathVariable String myId){
+        ObjectId objectId=new ObjectId(myId);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
        //all the username are stored in seqcontholder and obtain it and get its name
        String userName = authentication.getName();
        User user = userService.findByUserName(userName);//find user
-       List<JournalEntry> collect = user.getJournalEntries().stream().filter(x -> x.getId().equals(myId)).collect(Collectors.toList());
+       List<JournalEntry> collect = user.getJournalEntries().stream().filter(x -> x.getId().equals(objectId)).collect(Collectors.toList());
        //user ki journal entries ki list aae hogi to usse required id ko nikal kar collect wali list me daal dege
        if(!collect.isEmpty()){
-           Optional<JournalEntry> journalEntry=journalEntryService.getEntry(myId);
+           Optional<JournalEntry> journalEntry=journalEntryService.getEntry(objectId);
            if(journalEntry.isPresent()){//use of Response entity
                return new ResponseEntity<>(journalEntry.get(), HttpStatus.OK);
            }

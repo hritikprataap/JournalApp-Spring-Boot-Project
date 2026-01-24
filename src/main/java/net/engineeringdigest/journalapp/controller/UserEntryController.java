@@ -1,5 +1,6 @@
 package net.engineeringdigest.journalapp.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import net.engineeringdigest.journalapp.API.respone.WeatherResponse;
 import net.engineeringdigest.journalapp.entity.User;
 import net.engineeringdigest.journalapp.repositry.UserEntryRepository;
@@ -12,8 +13,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.HTML;
+
 @RestController
 @RequestMapping("/user")
+@Tag(name="User API's",description = "Read,Update,Delete Users")
 public class  UserEntryController {
 
     @Autowired

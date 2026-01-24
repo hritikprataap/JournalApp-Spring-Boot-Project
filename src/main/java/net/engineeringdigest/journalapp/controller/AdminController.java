@@ -1,5 +1,6 @@
 package net.engineeringdigest.journalapp.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import net.engineeringdigest.journalapp.Cache.AppCache;
 import net.engineeringdigest.journalapp.entity.User;
 import net.engineeringdigest.journalapp.service.UserEntryService;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
+@Tag(name="Admin Api's")
 
 
 public class AdminController {

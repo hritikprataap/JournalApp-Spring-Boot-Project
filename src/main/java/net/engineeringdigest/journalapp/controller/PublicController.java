@@ -1,6 +1,8 @@
 package net.engineeringdigest.journalapp.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import net.engineeringdigest.journalapp.dto.UserDto;
 import net.engineeringdigest.journalapp.entity.User;
 import net.engineeringdigest.journalapp.service.UserDetailServiceImpl;
 import net.engineeringdigest.journalapp.service.UserEntryService;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/public")
 @Slf4j
+@Tag(name="Public Api's")
 public class PublicController {
 
     @Autowired
@@ -53,8 +56,13 @@ public class PublicController {
     }}
 
     @PostMapping("/signup")
-    public ResponseEntity<Void> sighnUp(@RequestBody User user) {
-        userEntryService.saveNewUser(user);
+    public ResponseEntity<Void> sighnUp(@RequestBody UserDto user) {
+        User newUser=new User();
+        newUser.setUserName(user.getUserName());
+        newUser.setEmail(user.getEmail());
+        newUser.setPassword(user.getPassword());
+        newUser.setSentimentalAnalysis(user.isSentimentalAnalysis());
+        userEntryService.saveNewUser(newUser);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
